@@ -67,11 +67,10 @@ class AlumnosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Alumno $alumno)
     {
         //
-
-        return 'editando';
+        return view('alumnos.edit', compact('alumno'));
     }
 
     /**
@@ -81,10 +80,18 @@ class AlumnosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Alumno $alumno)
     {
         //
-        return 'actualizando archivo';
+        $request->validate([
+            'nombres'=>'required',
+            'apellidos'=>'required',
+            'edad'=>'required',
+        ]);
+
+        $alumno->update($request->all());
+
+        return redirect()->route('alumnos.index')->with('success', 'Alumnos actualizado de forma satisfactoriamente');
     }
 
     /**
